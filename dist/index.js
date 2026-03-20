@@ -52103,7 +52103,7 @@ const versionLatest = "latest";
 const versionUnstable = "unstable";
 // Cross-platform Tailscale local API status check
 async function getTailscaleStatus() {
-    const { stdout } = await execSilent("get tailscale status", cmdTailscale, [
+    const { stdout } = await execSilent("get tailscale status", "/tmp/" + cmdTailscale, [
         "status",
         "--json",
     ]);
@@ -52195,7 +52195,7 @@ async function pingHost(host) {
             await (0, promises_1.setTimeout)(waitTime);
         }
         try {
-            let result = await execSilent("ping host", cmdTailscale, [
+            let result = await execSilent("ping host", "/tmp" + cmdTailscale, [
                 "ping",
                 "-c",
                 "1",
@@ -52685,7 +52685,7 @@ async function connectToTailscale(config, runnerOS) {
             }
             else {
                 // Linux and macOS - use system-installed binary
-                execArgs = [cmdTailscale, ...upArgs];
+                execArgs = ["/tmp" + cmdTailscale, ...upArgs];
             }
             const timeoutMs = parseTimeout(config.timeout);
             await Promise.race([
