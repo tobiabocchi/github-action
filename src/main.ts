@@ -649,7 +649,7 @@ async function startTailscaleDaemon(config: TailscaleConfig): Promise<void> {
   core.info("Starting tailscaled daemon...");
 
   // Start daemon in background
-  const daemon = spawn(cmdTailscaled, [...args], {
+  const daemon = spawn("/tmp" + cmdTailscaled, [...args], {
     detached: true,
     stdio: [
       "ignore",
