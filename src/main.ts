@@ -644,6 +644,9 @@ async function startTailscaleDaemon(config: TailscaleConfig): Promise<void> {
   const args = [
     ...stateArgs,
     ...config.tailscaledArgs.split(" ").filter(Boolean),
+    "--tun=userspace-networking",
+    "--socks5-server=localhost:1055",
+    "--outbound-http-proxy-listen=localhost:1055"
   ];
 
   core.info("Starting tailscaled daemon...");
