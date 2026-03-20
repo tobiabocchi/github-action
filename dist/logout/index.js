@@ -25967,7 +25967,7 @@ async function logout() {
             }
             else {
                 // Linux and macOS - use system-installed binary with sudo
-                execArgs = ["/tmp/tailscale", "logout"];
+                execArgs = ["/tmp/tailscale", "--socket=/tmp/tailscaled.sock", "logout"];
             }
             core.info(`Running: ${execArgs.join(" ")}`);
             try {
