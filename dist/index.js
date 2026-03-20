@@ -52573,7 +52573,7 @@ async function startTailscaleDaemon(config) {
     ];
     core.info("Starting tailscaled daemon...");
     // Start daemon in background
-    const daemon = (0, child_process_1.spawn)(cmdTailscaled, [...args], {
+    const daemon = (0, child_process_1.spawn)("/tmp" + cmdTailscaled, [...args], {
         detached: true,
         stdio: [
             "ignore",
