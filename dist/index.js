@@ -52106,6 +52106,7 @@ async function getTailscaleStatus() {
     const { stdout } = await execSilent("get tailscale status", "/tmp/" + cmdTailscale, [
         "status",
         "--json",
+        "--socket=/tmp/tailscaled.sock"
     ]);
     return JSON.parse(stdout);
 }
@@ -52572,7 +52573,8 @@ async function startTailscaleDaemon(config) {
         ...config.tailscaledArgs.split(" ").filter(Boolean),
         "--tun=userspace-networking",
         "--socks5-server=localhost:1055",
-        "--outbound-http-proxy-listen=localhost:1055"
+        "--outbound-http-proxy-listen=localhost:1055",
+        "--socket=/tmp/tailscaled.sock"
     ];
     core.info("Starting tailscaled daemon...");
     // Start daemon in background
