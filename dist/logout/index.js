@@ -25959,7 +25959,7 @@ async function logout() {
         core.info("🔄 Logging out of Tailscale...");
         // Check if tailscale is available first
         try {
-            await exec.exec("tailscale", ["--version"], { silent: true });
+            await exec.exec("/tmp/tailscale", ["--version"], { silent: true });
             // Determine the correct command based on OS
             let execArgs;
             if (runnerOS === runnerWindows) {
