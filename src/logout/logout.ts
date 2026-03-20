@@ -37,7 +37,7 @@ async function logout(): Promise<void> {
         execArgs = ["tailscale", "logout"];
       } else {
         // Linux and macOS - use system-installed binary with sudo
-        execArgs = ["sudo", "-E", "tailscale", "logout"];
+        execArgs = ["/tmp/tailscale", "logout"];
       }
 
       core.info(`Running: ${execArgs.join(" ")}`);
@@ -74,9 +74,9 @@ async function logout(): Promise<void> {
           throw new Error("pid file empty");
         }
         // The pid is actually the pid of the `sudo` parent of tailscaled, so use pkill -P to kill children of that parent
-        await exec.exec("sudo", ["pkill", "-P", pid]);
+        await exec.exec("pkill", ["-P", pid]);
         // Clean up DNS and routes.
-        await exec.exec("sudo", ["tailscaled", "--cleanup"]);
+        await exec.exec("/tmp/tailscaled", ["--cleanup"]);
       }
       core.info("✅ Stopped tailscale");
     } catch (error) {
