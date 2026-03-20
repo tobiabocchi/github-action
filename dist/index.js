@@ -52195,7 +52195,7 @@ async function pingHost(host) {
             await (0, promises_1.setTimeout)(waitTime);
         }
         try {
-            let result = await execSilent("ping host", "/tmp" + cmdTailscale, [
+            let result = await execSilent("ping host", "/tmp/" + cmdTailscale, [
                 "ping",
                 "-c",
                 "1",
@@ -52573,7 +52573,7 @@ async function startTailscaleDaemon(config) {
     ];
     core.info("Starting tailscaled daemon...");
     // Start daemon in background
-    const daemon = (0, child_process_1.spawn)("/tmp" + cmdTailscaled, [...args], {
+    const daemon = (0, child_process_1.spawn)("/tmp/" + cmdTailscaled, [...args], {
         detached: true,
         stdio: [
             "ignore",
@@ -52685,7 +52685,7 @@ async function connectToTailscale(config, runnerOS) {
             }
             else {
                 // Linux and macOS - use system-installed binary
-                execArgs = ["/tmp" + cmdTailscale, ...upArgs];
+                execArgs = ["/tmp/" + cmdTailscale, ...upArgs];
             }
             const timeoutMs = parseTimeout(config.timeout);
             await Promise.race([
