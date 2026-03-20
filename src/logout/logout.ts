@@ -73,7 +73,6 @@ async function logout(): Promise<void> {
         if (pid === "") {
           throw new Error("pid file empty");
         }
-        // The pid is actually the pid of the `sudo` parent of tailscaled, so use pkill -P to kill children of that parent
         core.info(`Killing tailscaled process (PID: ${pid})...`);
         try {
           process.kill(parseInt(pid), "SIGTERM");

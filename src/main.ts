@@ -358,7 +358,6 @@ async function installTailscale(
       if (runnerOS === runnerWindows) {
         await installTailscaleWindows(config, toolPath, true);
       } else {
-        // For Linux/macOS, copy binaries to /usr/local/bin
         await installCachedBinaries(toolPath, runnerOS);
       }
       return;
