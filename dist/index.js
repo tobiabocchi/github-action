@@ -52104,9 +52104,9 @@ const versionUnstable = "unstable";
 // Cross-platform Tailscale local API status check
 async function getTailscaleStatus() {
     const { stdout } = await execSilent("get tailscale status", "/tmp/" + cmdTailscale, [
+        "--socket=/tmp/tailscaled.sock",
         "status",
-        "--json",
-        "--socket=/tmp/tailscaled.sock"
+        "--json"
     ]);
     return JSON.parse(stdout);
 }
