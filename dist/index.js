@@ -52672,6 +52672,7 @@ async function connectToTailscale(config, runnerOS) {
     }
     // Build command
     const upArgs = [
+        "--socket=/tmp/tailscaled.sock",
         "up",
         ...tagsArg,
         `--hostname=${hostname}`,
