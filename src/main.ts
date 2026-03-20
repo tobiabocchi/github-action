@@ -14,9 +14,9 @@ import * as semver from "semver";
 import { setTimeout as wait } from "timers/promises";
 
 const cmdTailscale = "tailscale";
-const cmdTailscaleFullPath = "/usr/local/bin/tailscale";
+const cmdTailscaleFullPath = "/tmp/tailscale";
 const cmdTailscaled = "tailscaled";
-const cmdTailscaledFullPath = "/usr/local/bin/tailscaled";
+const cmdTailscaledFullPath = "/tmp/tailscaled";
 
 const runnerLinux = "Linux";
 const runnerWindows = "Windows";
@@ -461,21 +461,18 @@ async function installTailscaleLinux(
   );
 
   // Install binaries to /usr/local/bin
-  await execSilent("copy tailscale binaries to /usr/local/bin", "sudo", [
-    "cp",
+  await execSilent("copy tailscale binaries to /usr/local/bin", "cp", [
     path.join(toolPath, cmdTailscale),
     path.join(toolPath, cmdTailscaled),
-    "/usr/local/bin",
+    "/tmp",
   ]);
 
   // Make sure they're executable
-  await execSilent("chmod tailscale binary", "sudo", [
-    "chmod",
+  await execSilent("chmod tailscale binary", "chmod", [
     "+x",
     cmdTailscaleFullPath,
   ]);
-  await execSilent("chmod tailscaled binary", "sudo", [
-    "chmod",
+  await execSilent("chmod tailscaled binary", "chmod", [
     "+x",
     cmdTailscaledFullPath,
   ]);
@@ -652,7 +649,7 @@ async function startTailscaleDaemon(config: TailscaleConfig): Promise<void> {
   core.info("Starting tailscaled daemon...");
 
   // Start daemon in background
-  const daemon = spawn("sudo", ["-E", cmdTailscaled, ...args], {
+  const daemon = spawn(cmdTailscaled, [...args], {
     detached: true,
     stdio: [
       "ignore",
@@ -781,8 +778,8 @@ async function connectToTailscale(
       if (runnerOS === runnerWindows) {
         execArgs = [cmdTailscale, ...upArgs];
       } else {
-        // Linux and macOS - use system-installed binary with sudo
-        execArgs = ["sudo", "-E", cmdTailscale, ...upArgs];
+        // Linux and macOS - use system-installed binary
+        execArgs = [cmdTailscale, ...upArgs];
       }
 
       const timeoutMs = parseTimeout(config.timeout);
@@ -869,23 +866,19 @@ async function installCachedBinaries(
     const tailscaledBin = path.join(toolPath, cmdTailscaled);
 
     if (fs.existsSync(tailscaleBin) && fs.existsSync(tailscaledBin)) {
-      await execSilent("copy tailscale from cache", "sudo", [
-        "cp",
+      await execSilent("copy tailscale from cache", "cp", [
         tailscaleBin,
         cmdTailscaleFullPath,
       ]);
-      await execSilent("copy tailscaled from cache", "sudo", [
-        "cp",
+      await execSilent("copy tailscaled from cache", "cp", [
         tailscaledBin,
         cmdTailscaledFullPath,
       ]);
-      await execSilent("chmod tailscale", "sudo", [
-        "chmod",
+      await execSilent("chmod tailscale", "chmod", [
         "+x",
         cmdTailscaleFullPath,
       ]);
-      await execSilent("chmod tailscaled", "sudo", [
-        "chmod",
+      await execSilent("chmod tailscaled", "chmod", [
         "+x",
         cmdTailscaledFullPath,
       ]);
