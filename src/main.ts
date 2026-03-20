@@ -461,7 +461,7 @@ async function installTailscaleLinux(
   );
 
   // Install binaries to /usr/local/bin
-  await execSilent("copy tailscale binaries to /usr/local/bin", "cp", [
+  await execSilent("copy tailscale binaries to /tmp", "cp", [
     path.join(toolPath, cmdTailscale),
     path.join(toolPath, cmdTailscaled),
     "/tmp",
