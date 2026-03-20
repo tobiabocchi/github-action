@@ -26002,6 +26002,13 @@ async function logout() {
                 }
                 // The pid is actually the pid of the `sudo` parent of tailscaled, so use pkill -P to kill children of that parent
                 await exec.exec("pkill", ["-P", pid]);
+                core.info(`Killing tailscaled process (PID: ${pid})...`);
+                try {
+                    process.kill(parseInt(pid), "SIGTERM");
+                }
+                catch (error) {
+                    core.debug(`Process might already be dead: ${error}`);
+                }
                 // Clean up DNS and routes.
                 await exec.exec("/tmp/tailscaled", ["--cleanup"]);
             }
